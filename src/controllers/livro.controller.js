@@ -1,5 +1,6 @@
 const livroService = require('../services/livro.service');
 
+
 const ExcelJS = require('exceljs');
 
 
@@ -85,14 +86,12 @@ const gerarRelatorioExcel = async (req, res) => {
 
     livros.forEach(livro => worksheet.addRow(livro));
 
-    // Gera nome do arquivo
     const dataAtual = new Date();
     const dia = String(dataAtual.getDate()).padStart(2, '0');
     const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
     const ano = dataAtual.getFullYear();
     const dataFormatada = `${dia}-${mes}-${ano}`;
 
-    // Base do nome
     let nomeArquivo = 'relatorio_livros';
 
     if (filtros.status) {
