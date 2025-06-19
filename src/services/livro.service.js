@@ -14,6 +14,10 @@ class LivroService {
     const livroCriado = await livroRepository.inserirLivro(livro);
     return livroCriado;
   }
+
+  async listarlivros(filtros) {
+    return await livroRepository.listarLivros(filtros)
+  }
 }
 
 module.exports = new LivroService();

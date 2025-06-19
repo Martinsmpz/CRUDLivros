@@ -10,4 +10,23 @@ const criarLivro = async (req, res) => {
   }
 };
 
-module.exports = { criarLivro };
+const listarLivros = async (req, res) => {
+  try {
+    const filtros = {
+      status: req.query.status,
+      genero: req.query.genero,
+    };
+
+    const livros = await livroService.listarlivros(filtros);
+    res.status(200).json(livros);
+  } catch (error) {
+    console.error('Erro ao listar livros:', error);
+    res.status(500).json({ mensagem: 'Erro ao listar livros' });
+  }
+};
+
+module.exports = {
+  criarLivro,
+  listarLivros,
+};
+

@@ -6,15 +6,44 @@ const inserirLivro = async (livro) => {
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
   `;
+
   const values = [
     livro.titulo,
     livro.autor,
     livro.genero,
     livro.ano_publicacao,
-    livro.status,
+    livro.status
   ];
+
   const { rows } = await db.query(query, values);
   return rows[0];
 };
 
-module.exports = { inserirLivro };
+const listarLivros = async (filtros) => {
+  let query = 'SELECT * FROM livros';
+  const values = [];
+  const condicoes = [];
+
+  if (filtros.status) {
+    values.push(filtros.status);
+    condicoes.push(`status = $${values.length}`);
+  }
+
+  if (filtros.genero) {
+    values.push(filtros.genero);
+    condicoes.push(`genero ILIKE $${values.length}`);
+  }
+
+  if (condicoes.length > 0) {
+    query += ' WHERE ' + condicoes.join(' AND ');
+  }
+
+  const { rows } = await db.query(query, values);
+  return rows;
+};
+
+
+module.exports = {
+  inserirLivro,
+  listarLivros, 
+};
