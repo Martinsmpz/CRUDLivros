@@ -1,0 +1,139 @@
+/* Fundo e texto principais */
+body {
+    background-color: #0B1437; /* azul bem escuro */
+    color: #E0E6F1; /* azul clarinho para texto */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 900px;
+  }
+  
+  /* Cabeçalho */
+  h1 {
+    color: #77A9F5;
+    font-weight: 700;
+  }
+  
+  /* Botões */
+  .btn-primary {
+    background-color: #1778F2;
+    border-color: #1778F2;
+    transition: background-color 0.3s ease;
+  }
+  .btn-primary:hover {
+    background-color: #3E70F0;
+    border-color: #3E70F0;
+  }
+  
+  .btn-secondary {
+    background-color: #22355D;
+    border-color: #22355D;
+    color: #E0E6F1;
+  }
+  .btn-secondary:hover {
+    background-color: #2D4A88;
+    border-color: #2D4A88;
+    color: #FFF;
+  }
+  
+  .btn-success {
+    background-color: #39B54A;
+    border-color: #39B54A;
+  }
+  .btn-success:hover {
+    background-color: #33A140;
+    border-color: #33A140;
+    color: #E0E6F1;
+  }
+  
+  /* Filtros - selects */
+  .form-select {
+    background-color: #1B274F;
+    color: #E0E6F1;
+    border: 1px solid #2E3B73;
+    transition: border-color 0.3s ease;
+  }
+  .form-select:focus {
+    border-color: #1778F2;
+    box-shadow: 0 0 0 0.25rem rgba(23, 120, 242, 0.5);
+    color: #E0E6F1;
+    background-color: #1B274F;
+  }
+  
+  /* Inputs do formulário */
+  .form-control {
+    background-color: #1B274F;
+    color: #E0E6F1;
+    border: 1px solid #2E3B73;
+    transition: border-color 0.3s ease;
+  }
+  .form-control:focus {
+    border-color: #1778F2;
+    box-shadow: 0 0 0 0.25rem rgba(23, 120, 242, 0.5);
+    background-color: #1B274F;
+    color: #E0E6F1;
+  }
+  
+  /* Labels */
+  .form-label {
+    color: #A9B2D1;
+  }
+  
+  /* Card formulário */
+  .card {
+    background-color: #1B274F;
+    border: none;
+    box-shadow: 0 4px 8px rgba(23, 120, 242, 0.2);
+  }
+  
+  /* Tabela */
+  .table {
+    background-color: #0B1437;
+    color: #E0E6F1;
+  }
+  .table thead {
+    background-color: #22355D;
+  }
+  .table thead th {
+    color: #A9B2D1;
+  }
+  .table tbody tr:hover {
+    background-color: #22355D;
+  }
+  .table-bordered {
+    border-color: #2E3B73;
+  }
+  .table-bordered th,
+  .table-bordered td {
+    border-color: #2E3B73;
+  }
+  
+  /* Mensagem "Nenhum livro encontrado" */
+  #mensagem-vazia {
+    color: #7A87B7;
+  }
+  
+  /* Feedback de validação */
+  .invalid-feedback {
+    color: #FF6B6B;
+  }
+  
+  /* Scrollbar dark */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B1437;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #1778F2;
+    border-radius: 4px;
+  }
+  
+  /* Transições para suavizar */
+  .btn, .form-control, .form-select {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
