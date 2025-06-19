@@ -26,6 +26,10 @@ class LivroService {
   async deletarLivro(id) {
     return await livroRepository.deletarLivro(id);
   }
+
+  async gerarRelatorio(filtros) {
+    return await livroRepository.listarLivros(filtros);
+  }
 }
 
 module.exports = new LivroService();

@@ -1,5 +1,8 @@
 const livroService = require('../services/livro.service');
 
+const ExcelJS = require('exceljs');
+
+
 const criarLivro = async (req, res) => {
   try {
     const livroCriado = await livroService.criarLivro(req.body);
@@ -58,10 +61,70 @@ const deletarLivro = async (req, res) => {
   }
 };
 
+
+const gerarRelatorioExcel = async (req, res) => {
+  try {
+    const filtros = {
+      status: req.query.status,
+      genero: req.query.genero,
+    };
+
+    const livros = await livroService.gerarRelatorio(filtros);
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Relatório de Livros');
+
+    worksheet.columns = [
+      { header: 'ID', key: 'id', width: 10 },
+      { header: 'Título', key: 'titulo', width: 30 },
+      { header: 'Autor', key: 'autor', width: 25 },
+      { header: 'Gênero', key: 'genero', width: 20 },
+      { header: 'Ano Publicação', key: 'ano_publicacao', width: 15 },
+      { header: 'Status', key: 'status', width: 15 },
+    ];
+
+    livros.forEach(livro => worksheet.addRow(livro));
+
+    // Gera nome do arquivo
+    const dataAtual = new Date();
+    const dia = String(dataAtual.getDate()).padStart(2, '0');
+    const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+    const ano = dataAtual.getFullYear();
+    const dataFormatada = `${dia}-${mes}-${ano}`;
+
+    // Base do nome
+    let nomeArquivo = 'relatorio_livros';
+
+    if (filtros.status) {
+      nomeArquivo += `_${filtros.status.toLowerCase().replace(/\s+/g, '_')}`;
+    }
+
+    if (filtros.genero) {
+      nomeArquivo += `_${filtros.genero.toLowerCase().replace(/\s+/g, '_')}`;
+    }
+
+    nomeArquivo += `_${dataFormatada}.xlsx`;
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader('Content-Disposition', `attachment; filename=${nomeArquivo}`);
+
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error('Erro ao gerar relatório:', error);
+    res.status(500).json({ mensagem: 'Erro ao gerar relatório' });
+  }
+};
+
+
 module.exports = {
   criarLivro,
   listarLivros,
   atualizarLivro,
-  deletarLivro
+  deletarLivro,
+  gerarRelatorioExcel
 };
 
