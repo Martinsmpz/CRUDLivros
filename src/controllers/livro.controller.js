@@ -22,7 +22,15 @@ const listarLivros = async (req, res) => {
     };
 
     const livros = await livroService.listarlivros(filtros);
-    res.status(200).json(livros);
+
+    if (livros.length === 0) {
+      return res.status(200).json({
+        mensagem: 'Nenhum livro encontrado',
+        livros: []
+      });
+    }
+
+    res.status(200).json({ livros });
   } catch (error) {
     console.error('Erro ao listar livros:', error);
     res.status(500).json({ mensagem: 'Erro ao listar livros' });
