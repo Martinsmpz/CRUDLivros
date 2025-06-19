@@ -41,9 +41,44 @@ const listarLivros = async (filtros) => {
   const { rows } = await db.query(query, values);
   return rows;
 };
+const atualizarLivro = async (id, data) => {
+  const query = `
+    UPDATE livros
+    SET titulo = $1,
+        autor = $2,
+        genero = $3,
+        ano_publicacao = $4,
+        status = $5
+    WHERE id = $6
+    RETURNING *;
+  `;
+
+  const values = [
+    data.titulo,
+    data.autor,
+    data.genero,
+    data.ano_publicacao,
+    data.status,
+    id
+  ];
+
+  const result = await db.query(query, values);
+  console.log('Resultado da query:', result.rows);
+  return result.rows[0]; 
+  };
+
+  const deletarLivro = async (id) => {
+    const query = 'DELETE FROM livros WHERE id = $1 RETURNING *;';
+    const values = [id];
+  
+    const result = await db.query(query, values);
+    return result.rows.length > 0;
+  };
 
 
 module.exports = {
   inserirLivro,
-  listarLivros, 
+  listarLivros,
+  atualizarLivro,
+  deletarLivro
 };

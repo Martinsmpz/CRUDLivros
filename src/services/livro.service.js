@@ -18,6 +18,14 @@ class LivroService {
   async listarlivros(filtros) {
     return await livroRepository.listarLivros(filtros)
   }
+
+  async atualizarLivro(id, data) {
+    return await livroRepository.atualizarLivro(id, data);
+  }
+
+  async deletarLivro(id) {
+    return await livroRepository.deletarLivro(id);
+  }
 }
 
 module.exports = new LivroService();
