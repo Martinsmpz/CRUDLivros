@@ -72,65 +72,71 @@
       <p id="mensagem-vazia" class="text-center text-gray-400 py-6 hidden">Nenhum livro encontrado.</p>
     </section>
 
-    <section id="formulario-container" class="mt-8 p-6 bg-dark-blue rounded shadow hidden max-w-md mx-auto">
-      <h2 id="titulo-formulario" class="text-xl font-semibold mb-4">Adicionar Livro</h2>
-      <form id="form-livro" class="space-y-4">
-        <input type="hidden" id="livro-id" />
+    <div id="mensagem-sucesso" class="bg-green-600 text-white px-4 py-2 rounded mb-4 max-w-md mx-auto hidden">
+      📚 Livro criado com sucesso!
+    </div>
 
-        <div>
-          <label for="titulo" class="block mb-1">Título <span class="text-red-500">*</span></label>
-          <input type="text" id="titulo" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required />
-          <p class="text-red-500 text-sm mt-1 hidden" id="erro-titulo"></p>
-        </div>
+<!-- Modal backdrop e formulário -->
+<div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+  <section id="formulario-container" class="bg-dark-blue p-6 rounded shadow max-w-md w-full">
+    <h2 id="titulo-formulario" class="text-xl font-semibold mb-4">Adicionar Livro</h2>
+    <form id="form-livro" class="space-y-4">
+      <input type="hidden" id="livro-id" />
 
-        <div>
-          <label for="autor" class="block mb-1">Autor <span class="text-red-500">*</span></label>
-          <input type="text" id="autor" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required />
-          <p class="text-red-500 text-sm mt-1 hidden" id="erro-autor"></p>
-        </div>
+      <div>
+        <label for="titulo" class="block mb-1">Título <span class="text-red-500">*</span></label>
+        <input type="text" id="titulo" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required />
+        <p class="text-red-500 text-sm mt-1 hidden" id="erro-titulo"></p>
+      </div>
 
-        <div>
-          <label for="genero" class="block mb-1">Gênero <span class="text-red-500">*</span></label>
-          <select id="genero" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required>
-            <option value="">Selecione um gênero</option>
-            <option value="Romance">Romance</option>
-            <option value="Ficção">Ficção</option>
-            <option value="Suspense">Suspense</option>
-            <option value="Fantasia">Fantasia</option>
-          </select>
-          <p class="text-red-500 text-sm mt-1 hidden" id="erro-genero"></p>
-        </div>
+      <div>
+        <label for="autor" class="block mb-1">Autor <span class="text-red-500">*</span></label>
+        <input type="text" id="autor" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required />
+        <p class="text-red-500 text-sm mt-1 hidden" id="erro-autor"></p>
+      </div>
 
-        <div>
-          <label for="ano_publicacao" class="block mb-1">Ano de Publicação <span class="text-red-500">*</span></label>
-          <input type="number" id="ano_publicacao" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required />
-          <p class="text-red-500 text-sm mt-1 hidden" id="erro-ano"></p>
-        </div>
+      <div>
+        <label for="genero" class="block mb-1">Gênero <span class="text-red-500">*</span></label>
+        <select id="genero" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required>
+          <option value="">Selecione um gênero</option>
+          <option value="Romance">Romance</option>
+          <option value="Ficção">Ficção</option>
+          <option value="Suspense">Suspense</option>
+          <option value="Fantasia">Fantasia</option>
+        </select>
+        <p class="text-red-500 text-sm mt-1 hidden" id="erro-genero"></p>
+      </div>
 
-        <div>
-          <label for="status" class="block mb-1">Status <span class="text-red-500">*</span></label>
-          <select id="status" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required>
-            <option value="">Selecione um status</option>
-            <option value="lido">Lido</option>
-            <option value="lendo">Lendo</option>
-            <option value="nao lido">Não Lido</option>
-          </select>
-          <p class="text-red-500 text-sm mt-1 hidden" id="erro-status"></p>
-        </div>
+      <div>
+        <label for="ano_publicacao" class="block mb-1">Ano de Publicação <span class="text-red-500">*</span></label>
+        <input type="number" id="ano_publicacao" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required />
+        <p class="text-red-500 text-sm mt-1 hidden" id="erro-ano_publicacao"></p>
+      </div>
 
-        <div class="flex justify-end gap-4 mt-6">
-          <button type="button" id="btn-cancelar" class="bg-gray-600 hover:bg-gray-500 transition rounded px-4 py-2">Cancelar</button>
-          <button type="submit" id="btn-salvar" class="bg-soft-blue hover:bg-blue-700 transition rounded px-4 py-2 text-white font-semibold">Salvar</button>
-        </div>
-      </form>
-    </section>
-  </main>
+      <div>
+        <label for="status" class="block mb-1">Status <span class="text-red-500">*</span></label>
+        <select id="status" class="w-full rounded border border-gray-700 bg-dark-blue px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue" required>
+          <option value="">Selecione um status</option>
+          <option value="lido">Lido</option>
+          <option value="lendo">Lendo</option>
+          <option value="nao lido">Não Lido</option>
+        </select>
+        <p class="text-red-500 text-sm mt-1 hidden" id="erro-status"></p>
+      </div>
+
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="button" id="btn-cancelar" class="bg-gray-600 hover:bg-gray-500 transition rounded px-4 py-2">Cancelar</button>
+        <button type="submit" id="btn-salvar" class="bg-soft-blue hover:bg-blue-700 transition rounded px-4 py-2 text-white font-semibold">Salvar</button>
+      </div>
+    </form>
+  </section>
+</div>
+</main>
 
   <script src="js/api.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/livros.js"></script>
   <script src="js/relatorio.js"></script>
-  <script src="js/livros.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', listarLivros);
 </script>
