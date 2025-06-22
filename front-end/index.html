@@ -25,16 +25,14 @@
 <body class="dark bg-dark-blue text-white min-h-screen flex flex-col">
 
   <main class="container mx-auto px-4 py-8 flex-grow">
-    <!-- Cabeçalho -->
     <header class="flex justify-between items-center mb-8">
       <div class="flex items-center gap-3">
         <div class="loader"></div>
         <h1 class="text-3xl font-semibold">Catálogo de Livros</h1>
       </div>
-      <button id="btn-novo-livro" class="bg-soft-blue hover:bg-blue-700 transition rounded px-4 py-2 text-white font-semibold">+ Novo Livro</button>
+        <button id="btn-novo-livro" class="bg-soft-blue hover:bg-blue-700 transition rounded px-4 py-2 text-white font-semibold">+ Novo Livro</button>
     </header>
 
-    <!-- Filtros -->
     <section class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
       <select id="filtro-genero" class="bg-dark-blue border border-gray-700 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-soft-blue">
         <option value="">Filtrar por gênero</option>
@@ -55,7 +53,6 @@
       </div>
     </section>
 
-    <!-- Tabela de livros -->
     <section class="overflow-x-auto bg-dark-blue rounded shadow">
       <table class="w-full text-left border-collapse">
         <thead class="bg-soft-blue">
@@ -69,13 +66,12 @@
           </tr>
         </thead>
         <tbody id="tabela-livros" class="divide-y divide-gray-700">
-          <!-- Os livros serão inseridos aqui via JS -->
         </tbody>
       </table>
+      <div id="paginacao" class="flex justify-center gap-2 mt-4 text-white"></div>
       <p id="mensagem-vazia" class="text-center text-gray-400 py-6 hidden">Nenhum livro encontrado.</p>
     </section>
 
-    <!-- Formulário (inicialmente oculto) -->
     <section id="formulario-container" class="mt-8 p-6 bg-dark-blue rounded shadow hidden max-w-md mx-auto">
       <h2 id="titulo-formulario" class="text-xl font-semibold mb-4">Adicionar Livro</h2>
       <form id="form-livro" class="space-y-4">
@@ -134,5 +130,9 @@
   <script src="js/ui.js"></script>
   <script src="js/livros.js"></script>
   <script src="js/relatorio.js"></script>
+  <script src="js/livros.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', listarLivros);
+</script>
 </body>
 </html>
