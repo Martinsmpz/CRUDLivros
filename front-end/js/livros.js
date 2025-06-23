@@ -13,7 +13,7 @@ async function listarLivros() {
 
   } catch (erro) {
     console.error('Erro ao listar livros:', erro);
-    alert('Erro ao carregar livros.');
+    alert('Erro ao carregar livros.');x
   }
 }
 
@@ -49,6 +49,32 @@ document.getElementById('btn-limpar').addEventListener('click', async () => {
 
   listarLivros();
 });
+
+
+
+document.getElementById('btn-exportar').addEventListener('click', () => {
+  const genero = document.getElementById('filtro-genero').value;
+  const status = document.getElementById('filtro-status').value;
+
+  let url = 'http://localhost:3000/livros/relatorio';
+  const params = [];
+
+  if (genero) params.push(`genero=${encodeURIComponent(genero)}`);
+  if (status) params.push(`status=${encodeURIComponent(status)}`);
+
+  if (params.length > 0) {
+    url += '?' + params.join('&');
+  }
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = '';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+
 
 
 
@@ -165,7 +191,7 @@ function renderTabelaLivros() {
     <td>${getStatusBadge(livro.status)}</td>
     <td class="space-x-2">
       <button class="btn-editar px-2 py-1 bg-gray-700 hover:bg-gray-500 text-white rounded transition" data-id="${livro.id}">Editar</button>
-      <button class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded transition">Deletar</button>
+      <button class="btn-deletar px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded transition" data-id="${livro.id}">Deletar</button>
     </td>
   `;
     tabela.appendChild(linha);
@@ -191,6 +217,59 @@ function renderTabelaLivros() {
       document.getElementById('modal-overlay').classList.remove('hidden');
     });
   });
+
+  // Referências ao modal
+const modalConfirmacao = document.getElementById('confirmacao-modal');
+const textoConfirmacao = document.getElementById('confirmacao-texto');
+const btnCancelarConfirmacao = document.getElementById('btn-cancelar-confirmacao');
+const btnConfirmarDeletar = document.getElementById('btn-confirmar-deletar');
+
+// Armazena temporariamente o ID a ser deletado
+let livroParaDeletarId = null;
+
+document.querySelectorAll('.btn-deletar').forEach(botao => {
+  botao.addEventListener('click', () => {
+    const id = botao.getAttribute('data-id');
+    const livro = livrosData.find(l => l.id == id);
+
+    if (!livro) return;
+
+    // Mostra modal com nome do livro
+    textoConfirmacao.textContent = `Deseja realmente excluir o livro "${livro.titulo}"?`;
+    livroParaDeletarId = id;
+    modalConfirmacao.classList.remove('hidden');
+  });
+});
+
+// Botão Cancelar – fecha o modal
+btnCancelarConfirmacao.addEventListener('click', () => {
+  modalConfirmacao.classList.add('hidden');
+  livroParaDeletarId = null;
+});
+
+// Botão Confirmar – deleta e fecha o modal
+btnConfirmarDeletar.addEventListener('click', async () => {
+  if (!livroParaDeletarId) return;
+
+  try {
+    const resposta = await fetch(`http://localhost:3000/livros/${livroParaDeletarId}`, {
+      method: 'DELETE'
+    });
+
+    if (!resposta.ok) throw new Error('Erro ao deletar');
+
+    alert('🗑️ Livro deletado com sucesso!');
+    modalConfirmacao.classList.add('hidden');
+    livroParaDeletarId = null;
+
+    await listarLivros();
+    renderTabelaLivros();
+  } catch (erro) {
+    console.error(erro);
+    alert('❌ Não foi possível excluir o livro.');
+  }
+});
+
   
 }
 
