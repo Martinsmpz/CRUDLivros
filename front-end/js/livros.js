@@ -17,6 +17,41 @@ async function listarLivros() {
   }
 }
 
+document.getElementById('btn-filtrar').addEventListener('click', async () => {
+  const genero = document.getElementById('filtro-genero').value;
+  const status = document.getElementById('filtro-status').value;
+
+  let url = 'http://localhost:3000/livros';
+
+  const filtros = [];
+  if (genero) filtros.push(`genero=${encodeURIComponent(genero)}`);
+  if (status) filtros.push(`status=${encodeURIComponent(status)}`);
+
+  if (filtros.length > 0) {
+    url += `?${filtros.join('&')}`;
+  }
+
+  try {
+    const resposta = await fetch(url);
+    const dados = await resposta.json();
+    livrosData = dados.livros;
+    paginaAtual = 1;
+    renderTabelaLivros();
+  } catch (erro) {
+    console.error('Erro ao aplicar filtros:', erro);
+    alert('Erro ao aplicar filtros.');
+  }
+});
+
+document.getElementById('btn-limpar').addEventListener('click', async () => {
+  document.getElementById('filtro-genero').value = '';
+  document.getElementById('filtro-status').value = '';
+
+  listarLivros();
+});
+
+
+
 function getStatusBadge(status) {
   switch (status) {
     case 'lido':
@@ -129,7 +164,7 @@ function renderTabelaLivros() {
     <td>${livro.ano_publicacao}</td>
     <td>${getStatusBadge(livro.status)}</td>
     <td class="space-x-2">
-      <button class="px-2 py-1 bg-gray-700 hover:bg-gray-500 text-white rounded transition">Editar</button>
+      <button class="btn-editar px-2 py-1 bg-gray-700 hover:bg-gray-500 text-white rounded transition" data-id="${livro.id}">Editar</button>
       <button class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded transition">Deletar</button>
     </td>
   `;
@@ -137,5 +172,25 @@ function renderTabelaLivros() {
   });
 
   renderPaginacao();
+
+  document.querySelectorAll('.btn-editar').forEach(botao => {
+    botao.addEventListener('click', async () => {
+      const id = botao.getAttribute('data-id');
+      const livro = livrosData.find(l => l.id == id);
+  
+      if (!livro) return;
+  
+      document.getElementById('livro-id').value = livro.id;
+      document.getElementById('titulo').value = livro.titulo;
+      document.getElementById('autor').value = livro.autor;
+      document.getElementById('genero').value = livro.genero;
+      document.getElementById('ano_publicacao').value = livro.ano_publicacao;
+      document.getElementById('status').value = livro.status;
+  
+      document.getElementById('titulo-formulario').textContent = 'Editar Livro';
+      document.getElementById('modal-overlay').classList.remove('hidden');
+    });
+  });
+  
 }
 
